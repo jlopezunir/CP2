@@ -1,0 +1,11 @@
+[all:vars]
+ansible_user =ansible
+
+[master]
+ansk8master
+
+[workers]
+ansk8worker
+
+[nfs]
+ansk8master
