@@ -1,8 +1,4 @@
 ---
-- name: dnf update
-  dnf:
-    name: '*'
-    state: latest
 
 - name: Install pre-deploy common packages
   dnf: 

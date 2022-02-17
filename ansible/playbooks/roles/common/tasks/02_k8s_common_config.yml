@@ -45,18 +45,21 @@
 
 - name: WGET CRI-O repo 1
   get_url: 
-    url: http://download.opensuse.org/repositories/devel:/kubic:/libcontainers:/stable/CentOS_8_Stream/devel:kubic:libcontainers:stable.repo 
+    url: https://download.opensuse.org/repositories/devel:/kubic:/libcontainers:/stable/CentOS_8_Stream/devel:kubic:libcontainers:stable.repo 
     dest: /etc/yum.repos.d/devel:kubic:libcontainers:stable.repo
+    validate_certs: false
 
 - name: WGET CRI-O repo 2
   get_url: 
-    url: http://download.opensuse.org/repositories/devel:kubic:libcontainers:stable:cri-o:1.23:1.23.1/CentOS_8_Stream/devel:kubic:libcontainers:stable:cri-o:1.23:1.23.1.repo
+    url: https://download.opensuse.org/repositories/devel:kubic:libcontainers:stable:cri-o:1.23:1.23.1/CentOS_8_Stream/devel:kubic:libcontainers:stable:cri-o:1.23:1.23.1.repo
     dest: /etc/yum.repos.d/devel:kubic:libcontainers:stable:cri-o:1.23:1.23.1.repo
+    validate_certs: false
 
 - name: Install CRI-O
   dnf: 
     name: cri-o
     state: present
+    disable_gpg_check: yes
 
 - name: Enable CRI-O service
   systemd:
