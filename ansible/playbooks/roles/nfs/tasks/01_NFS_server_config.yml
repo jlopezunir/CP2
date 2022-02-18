@@ -28,8 +28,14 @@
   command: exportfs -r
 
 - name: Enable services firewalld
+  firewalld:
     service: "{{ item }}"
-      permanent: yes
-      state: enabled
-    with_items: "{{ nfsfwsvc }}"
+    permanent: yes
+    state: enabled
+  loop: "{{ nfs_fw_svc }}"
+
+- name: Reload FW
+  systemd:
+    name: firewalld
+    state: reloaded
 ...
