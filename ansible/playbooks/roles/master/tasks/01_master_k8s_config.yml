@@ -12,7 +12,7 @@
     state: reloaded
 
 - name: Configure kubeadm
-      shell: kubeadm config images pull 
+  shell: kubeadm config images pull 
 
 - name: Allow acces from worker1      
   firewalld:
@@ -27,8 +27,14 @@
 
 - name: Initializing K8s cluster
   shell: kubeadm init --pod-network-cidr 192.169.0.0/16
+  ignore_errors: yes
 - name: Kubeconfig for user ansible
-  command: export KUBECONFIG=/etc/kubernetes/admin.conf  
+  shell: export KUBECONFIG=/etc/kubernetes/admin.conf  
+
+- name: Ensure .kube dir exists
+  file: 
+    path: /home/ansible/.kube
+    state: directory
 
 - name: Configuring users cluster access
   become: yes
@@ -44,5 +50,5 @@
  
 - name: Setting k8s_join_token as fact
   set_fact:
-  join_command: “{{ k8s_join_token.stdout_lines[0] }}” 
+    k8s_join_token: “{{ k8s_join_token.stdout_lines[0] }}” 
 ... 
