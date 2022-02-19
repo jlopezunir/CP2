@@ -51,4 +51,25 @@
 - name: Setting k8s_join_token as fact
   set_fact:
     k8s_join_token: “{{ k8s_join_token.stdout_lines[0] }}” 
+
+- name: Installing Tigera operator for SDN (Calico)
+  shell: kubectl create -f https://docs.projectcalico.org/manifests/tigera-operator.yaml
+
+- name: Download Calico definition file
+  get_url: 
+    url: https://docs.projectcalico.org/manifests/custom-resources.yaml
+    dest: /tmp/custom-resources.yaml
+
+- name: Changing CIDR for our subnet
+  lineinfile:
+  path: /tmp/custom-resources.yaml
+  regexp: '^cidr:'
+  line: cidr: 192.169.0.0./16
+
+- name: Installing Calico SDN
+  shell: kubectl apply -f /tmp/custom-resources.yaml
+
+- name: Rebooting and finishing DN configuration
+  reboot:
+    pre_reboot_delay: 180
 ... 
