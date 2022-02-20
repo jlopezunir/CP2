@@ -1,2 +1,11 @@
 ---
+
+- name: Common features configuration
+  hosts: all
+  vars_files:
+    - "/dat/CP2/ansible/vars/allvars.yml"
+  gather_facts: false
+  roles:
+    - common
+
 ...
