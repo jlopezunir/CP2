@@ -1,12 +1,13 @@
 ---
 
-- name: Common features configuration
+- name: First common features configuration
   hosts: all
   vars_files:
     - "/dat/CP2/ansible/vars/allvars.yml"
   gather_facts: false
-  roles:
-    - common
+  include_role:
+    name: common
+    task_from: 01_previous_config.yml
 
 - name: NFS server install & config
   hosts: nfs
@@ -14,4 +15,13 @@
     - "/dat/CP2/ansible/vars/allvars.yml"
   roles:
     - nfs
+
+- name: K8s common features configuration
+  ihosts: all
+  vars_files:
+    - "/dat/CP2/ansible/vars/allvars.yml"
+  gather_facts: false
+  include_role:
+    name: common
+    task_from: 02_k8s_common_config.yml
 ...

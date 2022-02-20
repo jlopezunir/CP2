@@ -1,3 +1,4 @@
 ---
 - include_tasks: 01_previous_config.yml
+- include_tasks: 02_k8s_common_config.yml
 ...
