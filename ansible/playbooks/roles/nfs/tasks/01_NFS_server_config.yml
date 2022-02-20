@@ -1,0 +1,35 @@
+---
+- name: Install NFS server packages
+  dnf: 
+    name: "{{ nfs_pkg }}"
+    state: present
+
+- name: Enable nfs-server service
+  systemd:
+    name: nfs-server
+    state: started
+    enabled: yes
+
+- name: Create NFS Export directory
+  file:
+    path: /srv/nfs
+    state: directory
+
+- name: Copy export values
+  blockinfile:
+    path: /etc/exports
+    block: |
+      # master
+      /srv/nfs	{{ masterip }}(rw,sync) 
+      # worker01
+      /srv/nfs	{{ workerip }}(rw,sync) 
+
+- name: Re-export the sare
+  command: exportfs -r
+
+- name: Enable services firewalld
+    service: "{{ item }}"
+      permanent: yes
+      state: enabled
+    with_items: "{{ nfsfwsvc }}"
+...

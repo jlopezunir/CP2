@@ -8,4 +8,10 @@
   roles:
     - common
 
+- name: NFS server install & config
+  hosts: nfs
+  vars_files:
+    - "/dat/CP2/ansible/vars/allvars.yml"
+  roles:
+    - nfs
 ...

@@ -1,3 +1,7 @@
 ---
 prev_pkg: ['chrony', 'nfs-utils', 'wget', 'nfs4-acl-tools']
+nfs_pkg: ['nfs-utils', 'net-tools']
+masterip: 192.168.1.140
+workerip: 192.168.1.141
+nfsfwsvc: ['nfs', 'rpc-bind', 'mountd']
 ...
