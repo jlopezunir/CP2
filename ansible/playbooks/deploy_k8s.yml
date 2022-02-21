@@ -5,9 +5,10 @@
   vars_files:
     - "/dat/CP2/ansible/vars/allvars.yml"
   gather_facts: false
-  include_role:
-    name: common
-    task_from: 01_previous_config.yml
+  tasks:
+    - include_role:
+        name: common
+        tasks_from: 01_previous_config.yml
 
 - name: NFS server install & config
   hosts: nfs
@@ -17,11 +18,12 @@
     - nfs
 
 - name: K8s common features configuration
-  ihosts: all
+  hosts: all
   vars_files:
     - "/dat/CP2/ansible/vars/allvars.yml"
   gather_facts: false
-  include_role:
-    name: common
-    task_from: 02_k8s_common_config.yml
+  tasks:
+    - include_role:
+        name: common
+        tasks_from: 02_k8s_common_config.yml
 ...

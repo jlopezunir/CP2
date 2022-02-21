@@ -1,8 +1,8 @@
 ---
 prev_pkg: ['chrony', 'nfs-utils', 'wget', 'nfs4-acl-tools']
 nfs_pkg: ['nfs-utils', 'net-tools']
-masterip: 192.168.1.140
-workerip: 192.168.1.141
+masterip: 42.0.4.235
+workerip: 42.0.4.236
 nfs_fw_svc: ['nfs', 'rpc-bind', 'mountd']
-kube_pkg: ['kubelet', 'kubeadm', 'kubectl']
+k8s_pkg: ['kubelet', 'kubeadm', 'kubectl']
 ...
