@@ -4,4 +4,5 @@ nfs_pkg: ['nfs-utils', 'net-tools']
 masterip: 192.168.1.140
 workerip: 192.168.1.141
 nfs_fw_svc: ['nfs', 'rpc-bind', 'mountd']
+kube_pkg: ['kubelet', 'kubeadm', 'kubectl']
 ...
