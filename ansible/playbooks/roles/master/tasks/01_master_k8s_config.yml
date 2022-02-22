@@ -1,0 +1,36 @@
+---
+- name: Enable k8s ports firewalld
+  firewalld:
+    port: "{{ item }}"
+    permanent: yes
+    state: enabled
+  loop: "{{ k8s_fw_port }}"
+
+- name: Reload FW
+  systemd:
+    name: firewalld
+    state: reloaded
+
+- name: Configure kubeadm
+      shell: kubeadm config images pull
+
+- name: Allow acces from worker1
+  firewalld:
+    rich_rule: rule family=ipv4 source address={{ workerip }} accept
+    permanent: yes
+    state: enabled
+
+- name: Reload FW
+  systemd:
+    name: firewalld
+    state: reloaded
+
+- name: Install CNI and store join token into a var
+      command: kubeadm init --pod-network-cidr 192.169.0.0/16/usr/bin/openssl rand -base64 32
+      register: join_token
+      delegate_to: 127.0.0.1
+
+- name: debug join_token
+      debug: msg= "{{ join_token.stdout }}"
+      delegate_to: 127.0.0.1
+...

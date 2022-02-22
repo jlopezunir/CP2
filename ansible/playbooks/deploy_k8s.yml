@@ -26,4 +26,11 @@
     - include_role:
         name: common
         tasks_from: 02_k8s_common_config.yml
+
+- name: K8s master configuration
+  hosts: master
+  vars_files:
+    - "/dat/CP2/ansible/vars/allvars.yml"
+  roles:
+    - master
 ...
