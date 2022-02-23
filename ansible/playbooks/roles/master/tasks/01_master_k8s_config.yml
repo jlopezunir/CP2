@@ -26,25 +26,22 @@
     state: reloaded
 
 - name: Install CNI and store join token into a var
-  command: kubeadm init --pod-network-cidr 192.169.0.0/16/usr/bin/openssl rand -base64 32
-    register: join_token
-    delegate_to: 127.0.0.1
+  shell: kubeadm init --pod-network-cidr 192.169.0.0/16
+  register: join_token
+  ignore_errors: yes
 
-- name: debug join_token
-    debug: msg= "{{ join_token.stdout }}"
-    delegate_to: 127.0.0.1
-
-- local_action: Copy join_token to a join_token.txt in role "files" directory
-    module: copy
+- name: Copy join_token to a join_token.txt in files
+  copy:
     content: "{{ join_token.stdout }}"
     dest: "{{k8s_join_out}}"
+    force: yes
 
 - name: Export variable kubeconfig
-  command: export KUBECONFIG=/etc/kubernetes/admin.conf
+  shell: export KUBECONFIG=/etc/kubernetes/admin.conf
 
 - name: Create kube directory for root user
   file:
-    path: /root/.kube/etc/foo.conf
+    path: /root/.kube
     owner: $(id -u)
     group: $(id -g)
     mode: '0644'  
