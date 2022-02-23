@@ -12,7 +12,7 @@
     state: reloaded
 
 - name: Configure kubeadm
-      shell: kubeadm config images pull
+  shell: kubeadm config images pull
 
 - name: Allow acces from worker1
   firewalld:
@@ -26,11 +26,31 @@
     state: reloaded
 
 - name: Install CNI and store join token into a var
-      command: kubeadm init --pod-network-cidr 192.169.0.0/16/usr/bin/openssl rand -base64 32
-      register: join_token
-      delegate_to: 127.0.0.1
+  command: kubeadm init --pod-network-cidr 192.169.0.0/16/usr/bin/openssl rand -base64 32
+    register: join_token
+    delegate_to: 127.0.0.1
 
 - name: debug join_token
-      debug: msg= "{{ join_token.stdout }}"
-      delegate_to: 127.0.0.1
+    debug: msg= "{{ join_token.stdout }}"
+    delegate_to: 127.0.0.1
+
+- local_action: Copy join_token to a join_token.txt in role "files" directory
+    module: copy
+    content: "{{ join_token.stdout }}"
+    dest: "{{k8s_join_out}}"
+
+- name: Export variable kubeconfig
+  command: export KUBECONFIG=/etc/kubernetes/admin.conf
+
+- name: Create kube directory for root user
+  file:
+    path: /root/.kube/etc/foo.conf
+    owner: $(id -u)
+    group: $(id -g)
+    mode: '0644'  
+
+- name: Copy content k8s config
+  copy:
+    src: /etc/kubernetes/admin.conf
+    dest: /root/.kube/config
 ...
