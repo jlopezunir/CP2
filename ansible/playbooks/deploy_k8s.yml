@@ -3,7 +3,7 @@
 - name: First common features configuration
   hosts: all
   vars_files:
-    - "/dat/CP2/ansible/vars/allvars.yml"
+    - "/dat/github/CP2/ansible/vars/allvars.yml"
   gather_facts: false
   tasks:
     - include_role:
@@ -13,14 +13,14 @@
 - name: NFS server install & config
   hosts: nfs
   vars_files:
-    - "/dat/CP2/ansible/vars/allvars.yml"
+    - "/dat/github/CP2/ansible/vars/allvars.yml"
   roles:
     - nfs
 
 - name: K8s common features configuration
   hosts: all
   vars_files:
-    - "/dat/CP2/ansible/vars/allvars.yml"
+    - "/dat/github/CP2/ansible/vars/allvars.yml"
   gather_facts: false
   tasks:
     - include_role:
@@ -30,7 +30,7 @@
 - name: K8s master configuration
   hosts: master
   vars_files:
-    - "/dat/CP2/ansible/vars/allvars.yml"
+    - "/dat/github/CP2/ansible/vars/allvars.yml"
   roles:
     - master
 ...

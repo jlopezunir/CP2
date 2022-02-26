@@ -6,5 +6,4 @@ workerip: 42.0.4.236
 nfs_fw_svc: ['nfs', 'rpc-bind', 'mountd']
 k8s_pkg: ['kubelet', 'kubeadm', 'kubectl']
 k8s_fw_port: ['6443/tcp', '2379-2380/tcp', '10250-10252/tcp', '10255/tcp']
-k8s_join_out: /dat/CP2/ansible/playbooks/roles/master/files/join_token.out
 ...

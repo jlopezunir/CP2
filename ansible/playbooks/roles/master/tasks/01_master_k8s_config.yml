@@ -12,9 +12,9 @@
     state: reloaded
 
 - name: Configure kubeadm
-  shell: kubeadm config images pull
+      shell: kubeadm config images pull 
 
-- name: Allow acces from worker1
+- name: Allow acces from worker1      
   firewalld:
     rich_rule: rule family=ipv4 source address={{ workerip }} accept
     permanent: yes
@@ -25,29 +25,24 @@
     name: firewalld
     state: reloaded
 
-- name: Install CNI and store join token into a var
+- name: Initializing K8s cluster
   shell: kubeadm init --pod-network-cidr 192.169.0.0/16
-  register: join_token
-  ignore_errors: yes
+- name: Kubeconfig for user ansible
+  command: export KUBECONFIG=/etc/kubernetes/admin.conf  
 
-- name: Copy join_token to a join_token.txt in files
-  copy:
-    content: "{{ join_token.stdout }}"
-    dest: "{{k8s_join_out}}"
-    force: yes
-
-- name: Export variable kubeconfig
-  shell: export KUBECONFIG=/etc/kubernetes/admin.conf
-
-- name: Create kube directory for root user
-  file:
-    path: /root/.kube
-    owner: $(id -u)
-    group: $(id -g)
-    mode: '0644'  
-
-- name: Copy content k8s config
+- name: Configuring users cluster access
+  become: yes
   copy:
     src: /etc/kubernetes/admin.conf
-    dest: /root/.kube/config
-...
+    dest: /home/ansible/.kube/config
+    remote_src: yes
+    owner: ansible 
+
+- name: Setting k8s join command as variable
+  shell: kubeadm token create --print-join-command
+  register: k8s_join_token
+ 
+- name: Setting k8s_join_token as fact
+  set_fact:
+  join_command: “{{ k8s_join_token.stdout_lines[0] }}” 
+... 
