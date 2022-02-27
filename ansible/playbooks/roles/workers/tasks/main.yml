@@ -1,2 +1,3 @@
 ---
+- include_tasks: 01_k8s_workers_join.yml
 ...

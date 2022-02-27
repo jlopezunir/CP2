@@ -1,0 +1,17 @@
+---
+- name: Enabling workers ports firewalld
+  firewalld:
+    port: "{{ item }}"
+    permanent: yes
+    state: enabled
+  loop: "{{ workers_fw_port }}"
+
+- name: Reload FW
+  systemd:
+    name: firewalld
+    state: reloaded
+
+- name: Joining to the k8s cluster
+  become: yes
+  shell: "{{ hostvars['ansk8master']['k8s_join_token'] }}"
+...

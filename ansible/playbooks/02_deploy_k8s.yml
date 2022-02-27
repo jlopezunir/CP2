@@ -1,2 +1,8 @@
 ---
+- name: K8s worker joining configuration
+  hosts: workers
+  vars_files:
+    - "../vars/allvars.yml"
+  roles:
+    - worker
 ...
