@@ -1,0 +1,18 @@
+---
+- name: Installing HAProxy as ingress controller
+  become_user: ansible
+  shell: kubectl apply -f https://raw.githubusercontent.com/haproxytech/kubernetes-ingress/master/deploy/haproxy-ingress.yaml
+
+- name: Debuging Ingress controller services 1
+  become_user: ansible
+  shell: kubectl get svc -A
+  register: ingress_svc
+
+- name: Debuging Ingress controller services 2
+  debug:
+    var: ingress_svc
+
+- name: Rebooting and finishing SDN and Ingress configurations
+  reboot:
+    pre_reboot_delay: 300
+...

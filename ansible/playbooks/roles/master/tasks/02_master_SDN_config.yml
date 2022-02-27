@@ -1,0 +1,22 @@
+---
+- name: Installing Tigera operator for SDN (Calico)
+  become_user: ansible
+  shell: kubectl create -f https://docs.projectcalico.org/manifests/tigera-operator.yaml
+  ignore_errors: yes
+
+- name: Download Calico definition file
+  get_url:
+    url: https://docs.projectcalico.org/manifests/custom-resources.yaml
+    dest: /tmp/custom-resources.yaml
+
+- name: Changing CIDR for our subnet
+  lineinfile:
+    path: /tmp/custom-resources.yaml
+    regexp: '      cidr: 192.168.0.0/16'
+    line: '      cidr: 192.169.0.0/16'
+
+- name: Installing Calico SDN
+  become_user: ansible
+  shell: kubectl apply -f /tmp/custom-resources.yaml
+
+...

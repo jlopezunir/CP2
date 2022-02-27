@@ -28,11 +28,9 @@
 - name: Initializing K8s cluster
   shell: kubeadm init --pod-network-cidr 192.169.0.0/16
   ignore_errors: yes
-- name: Kubeconfig for user ansible
-  shell: export KUBECONFIG=/etc/kubernetes/admin.conf  
 
 - name: Ensure .kube dir exists
-  file: 
+  file:
     path: /home/ansible/.kube
     state: directory
 
@@ -42,9 +40,14 @@
     src: /etc/kubernetes/admin.conf
     dest: /home/ansible/.kube/config
     remote_src: yes
-    owner: ansible 
+    owner: ansible
+    group: ansible
+
+- name: Kubeconfig for user ansible
+  shell: export KUBECONFIG=$HOME/.kube/config  
 
 - name: Setting k8s join command as variable
+  become_user: ansible
   shell: kubeadm token create --print-join-command
   register: k8s_join_token
  
@@ -52,24 +55,4 @@
   set_fact:
     k8s_join_token: “{{ k8s_join_token.stdout_lines[0] }}” 
 
-- name: Installing Tigera operator for SDN (Calico)
-  shell: kubectl create -f https://docs.projectcalico.org/manifests/tigera-operator.yaml
-
-- name: Download Calico definition file
-  get_url: 
-    url: https://docs.projectcalico.org/manifests/custom-resources.yaml
-    dest: /tmp/custom-resources.yaml
-
-- name: Changing CIDR for our subnet
-  lineinfile:
-  path: /tmp/custom-resources.yaml
-  regexp: '^cidr:'
-  line: cidr: 192.169.0.0./16
-
-- name: Installing Calico SDN
-  shell: kubectl apply -f /tmp/custom-resources.yaml
-
-- name: Rebooting and finishing DN configuration
-  reboot:
-    pre_reboot_delay: 180
 ... 
