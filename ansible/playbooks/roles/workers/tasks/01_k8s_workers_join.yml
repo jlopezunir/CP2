@@ -11,7 +11,13 @@
     name: firewalld
     state: reloaded
 
-- name: Joining to the k8s cluster
-  become: yes
-  shell: "{{ hostvars['ansk8master']['k8s_join_token'] }}"
+- name: Copy k8s join command to local
+  copy:
+    src: roles/workers/files/k8s_join_command.sh
+    dest: /tmp/k8s_join_command.sh
+    owner: ansible
+    group: ansible
+
+- name: Join node to k8s cluster
+  command: sh /tmp/k8s_join_command.sh
 ...

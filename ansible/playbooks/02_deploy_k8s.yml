@@ -4,5 +4,5 @@
   vars_files:
     - "../vars/allvars.yml"
   roles:
-    - worker
+    - workers
 ...
