@@ -20,4 +20,9 @@
 
 - name: Join node to k8s cluster
   command: sh /tmp/k8s_join_command.sh
+  register: join_debug
+
+- name: Debugging k8s worker join
+  debug:
+    var: join_debug
 ...
