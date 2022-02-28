@@ -1,5 +1,5 @@
 ---
-- name: Copy Hosts values
+- name: Copying Hosts values
   blockinfile:
     path: /etc/hosts
     block: |
@@ -9,12 +9,12 @@
       {{ workerip }}      ansk8worker
       {{ masterip }}      nfs
 
-- name: Enable FW
+- name: Enabling FW
   systemd:
     name: firewalld
     state: started
 
-- name: Enable br_netfilter
+- name: Enabling br_netfilter
   modprobe:
     name: br_netfilter
     state: present
@@ -25,7 +25,7 @@
     permanent: true
     state: enabled
 
-- name: Copy k8s.conf for sysctl.d
+- name: Copying k8s.conf for sysctl.d
   blockinfile:
     path: /etc/sysctl.d/k8s.conf
     block: |
@@ -34,10 +34,10 @@
       net.ipv4.ip_forward                 = 1
     create: true
 
-- name: Disable SWAP
+- name: Disabling SWAP
   command: swapoff -a
 
-- name: Remove SWAP from /etc/fstab
+- name: Removing SWAP from /etc/fstab
   lineinfile:
     path: /etc/fstab
     regexp: "swap"
@@ -55,19 +55,19 @@
     dest: /etc/yum.repos.d/devel:kubic:libcontainers:stable:cri-o:1.23:1.23.1.repo
     validate_certs: false
 
-- name: Install CRI-O
+- name: Installing CRI-O
   dnf: 
     name: cri-o
     state: present
     disable_gpg_check: yes
 
-- name: Enable CRI-O service
+- name: Enabling CRI-O service
   systemd:
     name: crio
     state: started
     enabled: yes
 
-- name: Config k8s repo
+- name: Configuring k8s repo
   blockinfile:
     path: /etc/yum.repos.d/kubernetes.repo
     block: |
@@ -80,12 +80,12 @@
       gpgkey=https://packages.cloud.google.com/yum/doc/yum-key.gpg https://packages.cloud.google.com/yum/doc/rpm-package-key.gpg
     create: true    
 
-- name: Install k8s packages
+- name: Installing k8s packages
   dnf: 
     name: "{{ k8s_pkg }}"
     state: present        
 
-- name: Enable Kubelet
+- name: Enabling Kubelet
   systemd:
     name: kubelet
     state: started

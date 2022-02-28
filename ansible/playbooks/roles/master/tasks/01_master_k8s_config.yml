@@ -1,26 +1,26 @@
 ---
-- name: Enable k8s ports firewalld
+- name: Enabling k8s ports firewalld
   firewalld:
     port: "{{ item }}"
     permanent: yes
     state: enabled
   loop: "{{ k8s_fw_port }}"
 
-- name: Reload FW
+- name: Reloading FW
   systemd:
     name: firewalld
     state: reloaded
 
-- name: Configure kubeadm
+- name: Configuring kubeadm
   shell: kubeadm config images pull 
 
-- name: Allow acces from worker1      
+- name: Allowing acces from worker1      
   firewalld:
     rich_rule: rule family=ipv4 source address={{ workerip }} accept
     permanent: yes
     state: enabled
 
-- name: Reload FW
+- name: Reloading FW
   systemd:
     name: firewalld
     state: reloaded

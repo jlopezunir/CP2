@@ -1,23 +1,23 @@
 ---
 
-- name: Install pre-deploy common packages
+- name: Installing pre-deploy common packages
   dnf: 
     name: "{{ prev_pkg }}"
     state: present
 
-- name: Set timezone to Europe/Madrid
+- name: Seting timezone to Europe/Madrid
   timezone:
     name: Europe/Madrid
 
-- name: Enable chrony service
+- name: Enabling chrony service
   systemd:
     name: chronyd
     state: started
     enabled: yes
-- name: Set ntp timedate  
+- name: Seting ntp timedate  
   command: timedatectl set-ntp true
 
-- name: Disable SELinux
+- name: Disabling SELinux
   replace:
     path: /etc/selinux/config
     regexp: enforcing

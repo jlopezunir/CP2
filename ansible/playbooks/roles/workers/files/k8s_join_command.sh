@@ -1,1 +1,1 @@
-kubeadm join 42.0.4.235:6443 --token vir9ki.g1m1gv2f01ijvcy7 --discovery-token-ca-cert-hash sha256:71e7c1a5777fd3cd732cdb673881eda692e263f4e4e25cc10beae69a0f472c64 
+kubeadm join 42.0.4.235:6443 --token nzt3o5.1co1326av5xjimp7 --discovery-token-ca-cert-hash sha256:71e7c1a5777fd3cd732cdb673881eda692e263f4e4e25cc10beae69a0f472c64 

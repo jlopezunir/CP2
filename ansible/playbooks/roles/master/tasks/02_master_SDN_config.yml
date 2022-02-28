@@ -4,7 +4,7 @@
   shell: kubectl create -f https://docs.projectcalico.org/manifests/tigera-operator.yaml
   ignore_errors: yes
 
-- name: Download Calico definition file
+- name: Downloading Calico definition file
   get_url:
     url: https://docs.projectcalico.org/manifests/custom-resources.yaml
     dest: /tmp/custom-resources.yaml
