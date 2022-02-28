@@ -1,0 +1,33 @@
+---
+- name: Creating kubeadmin user
+  user:
+    name: kubeadmin
+    password: '$6$GqoRQLw3y$NvJoc1Lb6DL0CEn3quGoKqrUTVibzWBOQLNEM0NruAIR0MBk5MnPkLep1ADAZheEYToy7lAPm6aqTb6Ku0akJ/'
+    shell: /bin/bash
+    home: /home/kubeadmin
+
+- name: Ensure .kube dir exists
+  file:
+    path: /home/kubeadmin/.kube
+    state: directory
+
+- name: Configuring users cluster access
+  become: yes
+  copy:
+    src: /etc/kubernetes/admin.conf
+    dest: /home/kubeadmin/.kube/config
+    remote_src: yes
+    owner: kubeadmin
+    group: kubeadmin
+
+- name: Creating sudoer kubeadmin file
+  copy:
+    dest: /etc/sudoers.d/kubeadmin
+    content: |
+      kubeadmin            ALL = (ALL) NOPASSWD: ALL
+
+- name: Rebooting and finishing all master, SDN and Ingress configurations
+  reboot:
+    pre_reboot_delay: 180
+    post_reboot_delay: 300
+...

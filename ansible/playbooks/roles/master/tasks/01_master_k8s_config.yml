@@ -52,6 +52,7 @@
   register: k8s_join_command
  
 - name: Setting k8s_join_token to local file
+  become: false
   local_action: copy content="{{ k8s_join_command.stdout_lines[0] }}" dest="roles/workers/files/k8s_join_command.sh"
 
 ... 

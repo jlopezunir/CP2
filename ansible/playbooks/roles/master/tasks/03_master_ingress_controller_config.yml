@@ -12,7 +12,4 @@
   debug:
     var: ingress_svc
 
-- name: Rebooting and finishing SDN and Ingress configurations
-  reboot:
-    pre_reboot_delay: 300
 ...
