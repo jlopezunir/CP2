@@ -14,6 +14,8 @@
     name: chronyd
     state: started
     enabled: yes
+  ignore_errors: yes
+
 - name: Seting ntp timedate  
   command: timedatectl set-ntp true
 

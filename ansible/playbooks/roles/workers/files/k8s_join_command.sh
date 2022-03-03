@@ -1,1 +1,1 @@
-kubeadm join 42.0.4.235:6443 --token nzt3o5.1co1326av5xjimp7 --discovery-token-ca-cert-hash sha256:71e7c1a5777fd3cd732cdb673881eda692e263f4e4e25cc10beae69a0f472c64 
+kubeadm join 10.0.1.10:6443 --token s7egxe.4foo3gff1ap7vp13 --discovery-token-ca-cert-hash sha256:7c18539bd7a78e60f42e9fd2ba25214746f7ba13b6f00833bb15f34bd56ec1be 

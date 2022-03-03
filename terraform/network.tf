@@ -61,3 +61,42 @@ resource "azurerm_public_ip" "vm1_public" {
 
 }
 
+
+# Create NIC 2
+# https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/network_interface
+
+resource "azurerm_network_interface" "vm2_NIC" {
+  name                = "vmnic2"  
+  location            = azurerm_resource_group.rg.location
+  resource_group_name = azurerm_resource_group.rg.name
+
+    ip_configuration {
+    name                           = "myipconfiguration2"
+    subnet_id                      = azurerm_subnet.k8ssubnet.id 
+    private_ip_address_allocation  = "Static"
+    private_ip_address             = "10.0.1.11"
+    public_ip_address_id           = azurerm_public_ip.vm2_public.id
+  }
+
+    tags = {
+        environment = "CP2"
+    }
+
+}
+
+# IP pública 2
+# https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/public_ip
+
+resource "azurerm_public_ip" "vm2_public" {
+  name                = "vmip2"
+  location            = azurerm_resource_group.rg.location
+  resource_group_name = azurerm_resource_group.rg.name
+  allocation_method   = "Dynamic"
+  sku                 = "Basic"
+
+    tags = {
+        environment = "CP2"
+    }
+
+}
+
