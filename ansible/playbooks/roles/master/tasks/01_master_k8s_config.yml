@@ -20,6 +20,12 @@
     permanent: yes
     state: enabled
 
+- name: Allowing acces from worker2
+  firewalld:
+    rich_rule: rule family=ipv4 source address={{ workerip2 }} accept
+    permanent: yes
+    state: enabled    
+
 - name: Reloading FW
   systemd:
     name: firewalld
@@ -29,7 +35,7 @@
   shell: kubeadm init --pod-network-cidr 192.169.0.0/16
   ignore_errors: yes
 
-- name: Ensure .kube dir exists
+- name: Ensuring .kube dir exists
   file:
     path: /home/ansible/.kube
     state: directory

@@ -35,3 +35,7 @@ resource "azurerm_network_interface_security_group_association" "mySecGroupAssoc
     network_interface_id      = azurerm_network_interface.vm2_NIC.id
     network_security_group_id = azurerm_network_security_group.mySecGroup.id
 }
+resource "azurerm_network_interface_security_group_association" "mySecGroupAssociation3" {
+    network_interface_id      = azurerm_network_interface.vm3_NIC.id
+    network_security_group_id = azurerm_network_security_group.mySecGroup.id
+}

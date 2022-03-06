@@ -22,7 +22,9 @@
       # master
       /srv/nfs	{{ masterip }}(rw,sync) 
       # worker01
-      /srv/nfs	{{ workerip }}(rw,sync) 
+      /srv/nfs	{{ workerip }}(rw,sync)
+      # worker02
+      /srv/nfs	{{ workerip2 }}(rw,sync) 
 
 - name: Re-export the sare
   command: exportfs -r
