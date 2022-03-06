@@ -5,9 +5,9 @@
     block: |
       127.0.0.1   localhost localhost.localdomain localhost4 localhost4.localdomain4
       ::1         localhost localhost.localdomain localhost6 localhost6.localdomain6
-      {{ masterip }}      ansk8master
-      {{ workerip }}      ansk8worker
-      {{ workerip2 }}     ansk8worker2
+      {{ masterip }}      k8master
+      {{ workerip }}      k8worker
+      {{ workerip2 }}     k8worker2
       {{ masterip }}      nfs
 
 - name: Enabling FW

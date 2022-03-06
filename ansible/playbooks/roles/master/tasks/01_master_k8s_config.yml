@@ -32,7 +32,7 @@
     state: reloaded
 
 - name: Initializing K8s cluster
-  shell: kubeadm init --pod-network-cidr 192.169.0.0/16
+  shell: kubeadm init --pod-network-cidr 10.0.2.0/24
   ignore_errors: yes
 
 - name: Ensuring .kube dir exists
