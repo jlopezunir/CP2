@@ -20,11 +20,11 @@
     path: /etc/exports
     block: |
       # master
-      /srv/nfs	{{ masterip }}(rw,sync) 
+      /srv/nfs	{{ masterip }}(rw,sync,no_root_squash) 
       # worker01
-      /srv/nfs	{{ workerip }}(rw,sync)
+      /srv/nfs	{{ workerip }}(rw,sync,no_root_squash)
       # worker02
-      /srv/nfs	{{ workerip2 }}(rw,sync) 
+      /srv/nfs	{{ workerip2 }}(rw,sync,no_root_squash) 
 
 - name: Re-export the sare
   command: exportfs -r
