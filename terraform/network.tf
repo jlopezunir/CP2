@@ -19,7 +19,7 @@ resource "azurerm_subnet" "k8ssubnet" {
     name                   = "k8s_LAN"
     resource_group_name    = azurerm_resource_group.rg.name
     virtual_network_name   = azurerm_virtual_network.k8snet.name
-    address_prefixes       = ["10.0.1.0/24"]
+    address_prefixes       = ["10.0.0.0/20"]
 
 }
 

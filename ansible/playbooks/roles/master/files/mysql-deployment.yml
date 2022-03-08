@@ -6,7 +6,7 @@ metadata:
   labels:
     app: mysql-app
 spec:
-  replicas: 3
+  replicas: 1
   selector:
     matchLabels:
       app: mysql
@@ -24,6 +24,8 @@ spec:
             secretKeyRef:
               name: mysql-secret
               key: password
+        - name: MYSQL_ROOT_HOST
+          value: '%'
         ports:
         - containerPort: 3306
           name: mysql
@@ -38,10 +40,14 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: mysql
+  name: mysql-service
   namespace: mysql-app
 spec:
-  ports:
-  - port: 3306
+  type: NodePort
   selector:
     app: mysql
+  ports:
+    - protocol: TCP
+      port: 3306
+      nodePort: 30036
+      targetPort: 3306

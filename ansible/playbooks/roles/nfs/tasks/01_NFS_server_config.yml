@@ -15,6 +15,21 @@
     path: /srv/nfs
     state: directory
 
+- name: Create MySQL1 NFS directory
+  file:
+    path: /srv/nfs/mysql1
+    state: directory
+
+- name: Create MySQL2 NFS directory
+  file:
+    path: /srv/nfs/mysql2
+    state: directory
+
+- name: Create MySQL3 NFS directory
+  file:
+    path: /srv/nfs/mysql3
+    state: directory
+
 - name: Copy export values
   blockinfile:
     path: /etc/exports

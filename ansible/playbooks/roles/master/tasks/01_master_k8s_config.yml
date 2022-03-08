@@ -39,6 +39,8 @@
   file:
     path: /home/ansible/.kube
     state: directory
+    owner: ansible
+    group: ansible
 
 - name: Configuring users cluster access
   become: yes
