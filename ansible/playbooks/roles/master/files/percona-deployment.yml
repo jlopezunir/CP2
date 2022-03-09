@@ -47,7 +47,7 @@ spec:
                 # The default state of readiness before the initial delay is Failure.
                 # If a Container does not provide a readiness probe, the default state is Success.
           exec:
-            command: ["mysql", "-h", "127.0.0.1", "-p$(MYSQL_ROOT_PASSWORD)", "-e", "SELECT 1"]
+            command: ["mysql", "-h", "127.0.0.1", "-uroot", "-p$(MYSQL_ROOT_PASSWORD)", "-e", "SELECT 1"]
           initialDelaySeconds: 60
           periodSeconds: 10
           timeoutSeconds: 5
@@ -61,7 +61,7 @@ spec:
       accessModes: [ "ReadWriteMany" ]
       resources:
         requests:
-          storage: 8Gi
+          storage: 10Gi
 ---
 # HEADLESS SERVICE
 apiVersion: v1

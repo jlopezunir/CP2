@@ -19,13 +19,13 @@
   file:
     path: /srv/nfs/mysql1
     state: directory
-    mode: 0755
+    mode: 0777
 
 - name: Create MySQL2 NFS directory
   file:
     path: /srv/nfs/mysql2
     state: directory
-    mode: 0755
+    mode: 0777
 
 - name: Copy export values
   blockinfile:
