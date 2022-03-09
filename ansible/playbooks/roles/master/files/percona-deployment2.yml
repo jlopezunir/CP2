@@ -1,0 +1,95 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: mysql
+  namespace: percona-app
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: percona-galera
+  serviceName: mysql-db
+  template:
+    metadata:
+      labels:
+        app: percona-galera
+    spec:
+      containers:
+      - name: percona-galera
+        imagePullPolicy: Always
+        image: docker.io/percona
+        env:
+        - name: CLUSTER_NAME
+          value: percona-galera
+        - name: MYSQL_ROOT_PASSWORD
+          value: test1234
+        - name: MYSQL_ROOT_HOST
+          value: '%'
+        - name: K8S_SERVICE_NAME
+          value: percona-galera-xtradb
+        - name: LOG_TO_STDOUT
+          value: "true"
+        - name: DEBUG
+          value: "true"
+        livenessProbe:
+                # Indicates whether the Container is running.
+                # If the liveness probe fails, the kubelet kills the Container, and the Container is subjected to its restart policy.
+                # If a Container does not provide a liveness probe, the default state is Success.
+          exec:
+            command: ["mysqladmin", "-p$(MYSQL_ROOT_PASSWORD)", "ping"]
+          initialDelaySeconds: 60
+          periodSeconds: 10
+          timeoutSeconds: 5
+        readinessProbe:
+                # Indicates whether the Container is ready to service requests.
+                # If the readiness probe fails,
+                # the endpoints controller removes the Pod’s IP address from the endpoints of all Services that match the Pod.
+                # The default state of readiness before the initial delay is Failure.
+                # If a Container does not provide a readiness probe, the default state is Success.
+          exec:
+            command: ["mysql", "-h", "127.0.0.1", "-uroot", "-p$(MYSQL_ROOT_PASSWORD)", "-e", "SELECT 1"]
+          initialDelaySeconds: 60
+          periodSeconds: 10
+          timeoutSeconds: 5
+        volumeMounts:
+        - name: pvc
+          mountPath: /var/lib/mysql
+  volumeClaimTemplates:
+  - metadata:
+      name: pvc
+    spec:
+      accessModes: [ "ReadWriteMany" ]
+      resources:
+        requests:
+          storage: 10Gi
+---
+# HEADLESS SERVICE
+apiVersion: v1
+kind: Service
+metadata:
+  name: percona-galera-xtradb
+spec:
+  clusterIP: None
+  ports:
+  - name: galera-replication
+    port: 4567
+  - name: state-transfer
+    port: 4568
+  - name: state-snapshot
+    port: 4444
+  selector:
+    app: percona-galera
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: percona-service
+  namespace: percona-app
+spec:
+  type: ClusterIP
+  ports:
+    - protocol: TCP
+      targetPort: 3306
+      port: 3306
+  selector:
+    app: percona-galera

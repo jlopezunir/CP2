@@ -4,11 +4,11 @@ ansible_user=ansible
 ansible_python_interpreter=/usr/bin/python3
 
 [master]
-k8master
+k8smaster
 
 [workers]
-k8worker
-k8worker2
+k8sworker
+k8sworker2
 
 [nfs]
-k8master
+k8smaster

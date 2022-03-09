@@ -36,12 +36,12 @@ resource "azurerm_linux_virtual_machine" "k8smaster" {
     boot_diagnostics {
         storage_account_uri = azurerm_storage_account.stAccount.primary_blob_endpoint
     }
-
+        
      tags = {
         environment = "CP2"
 
      }
-}
+} 
 
 resource "azurerm_linux_virtual_machine" "k8sworker" {
     name                = "k8sworker"
@@ -78,12 +78,12 @@ resource "azurerm_linux_virtual_machine" "k8sworker" {
     boot_diagnostics {
         storage_account_uri = azurerm_storage_account.stAccount.primary_blob_endpoint
     }
-
+    
      tags = {
         environment = "CP2"
 
      }
-}
+} 
 
      resource "azurerm_linux_virtual_machine" "k8sworker2" {
     name                = "k8sworker2"
