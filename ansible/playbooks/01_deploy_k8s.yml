@@ -39,5 +39,16 @@
   vars_files:
     - "../vars/allvars.yml"
   roles:
-    - workers      
+    - workers
+
+- name: K8s percona deploying
+  hosts: master
+  vars_files:
+    - "../vars/allvars.yml"
+  gather_facts: false
+  remote_user: ansible
+  tasks:
+    - include_role:
+        name: master
+        tasks_from: 05_k8s_percona_deploy.yml      
 ...

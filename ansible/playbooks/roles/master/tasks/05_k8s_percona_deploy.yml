@@ -1,0 +1,40 @@
+---
+- name: Copying Percona k8s .yaml
+  copy:
+    src: "{{ item }}"
+    dest: /home/ansible/
+    owner: ansible
+    group: ansible
+    mode: 0755
+  with_items:
+  -  roles/master/files/percona-storage.yml
+  -  roles/master/files/percona-deployment.yml
+
+- name: Create a percona-app namespace
+  become_user: ansible
+  shell: kubectl create namespace percona-app
+  ignore_errors: yes
+
+- name: Run PV and PVC deployment
+  become_user: ansible
+  shell: kubectl apply -f percona-storage.yml --namespace=percona-app
+
+- name: Run Percona pods deployment
+  become_user: ansible
+  shell: kubectl apply -f percona-deployment.yml --namespace=percona-app
+
+- name: Waiting for containers gen
+  wait_for:
+    timeout: 180
+  delegate_to: localhost
+
+- name: Debug percona pods
+  become_user: ansible
+  shell: kubectl get pods -o wide --namespace=percona-app
+  register: percona_pod
+
+- name: Showing pods situation
+  debug:
+    var: percona_pod
+ 
+...
