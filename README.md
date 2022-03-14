@@ -35,7 +35,9 @@ terraform apply
 Modify the ips of /etc/hosts by those created in azure (or from our inventory /ansible/hosts)
  
 20.224.207.147  k8smaster
+
 20.224.207.18   k8sworker
+
 20.126.74.245   k8sworker2
 
 the ip's change every time we destroy the environment.
