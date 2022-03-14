@@ -49,4 +49,4 @@ We can check the acces to then with:
 
 mysql -hk8sworker -uroot -p -P30036 -e "select @@hostname;"
 
-mysql -hk8sworker2 -uroot -p -P30036 -e "select @@hostname;"# CP2
+mysql -hk8sworker2 -uroot -p -P30036 -e "select @@hostname;"
