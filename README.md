@@ -47,4 +47,5 @@ After about 10 minutes we should have our kubernetes cluster deployed and a Perc
 
 We can check the acces to then with:
 mysql -hk8sworker -uroot -p -P30036 -e "select @@hostname;"
+
 mysql -hk8sworker2 -uroot -p -P30036 -e "select @@hostname;"# CP2
